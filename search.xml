@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Create Blog with Hexo and NexT</title>
+    <url>/2023/04/30/hexo-next-blog/</url>
+    <content><![CDATA[<h1 id="create-blog-with-hexo-and-next">Create Blog with Hexo and
+NexT</h1>
+<h2 id="install-node.js">Install Node.js</h2>
+<p>Download and run the script to install <a
+href="https://github.com/nvm-sh/nvm">nvm</a>, which is a version manager
+for <a href="https://nodejs.org/en">Node.js</a>. <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash</span><br></pre></td></tr></table></figure> Download
+and install the latest release of Node.js: <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nvm install node</span><br></pre></td></tr></table></figure> And use the
+installed version: <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nvm use node</span><br></pre></td></tr></table></figure></p>
+<h2 id="install-and-initialize-hexo">Install and Initialize Hexo</h2>
+<p>Install Hexo with npm: <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure> Initialize Hexo in the target
+directory <code>blog</code>: <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init &lt;blog&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;blog&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="install-next">Install NexT</h2>
+<p>Download the source code of the theme NexT in the <code>themes</code>
+directory under the <code>blog</code> root directory: <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/next-theme/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p>
+<h2 id="enable-next">Enable NexT</h2>
+<p>Open Hexo config file <code>_config.yml</code>, find
+<code>theme</code> option, and change its value to <code>next</code>:
+<figure class="highlight yaml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure> Check whether the site works correctly on local server:
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean &amp; hexo server</span><br></pre></td></tr></table></figure></p>
+]]></content>
+  </entry>
+</search>
