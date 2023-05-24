@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-05-01T03:59:34.669Z</updated>
+  <updated>2023-05-24T16:31:37.245Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,21 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Sync Zotero with OneDrive</title>
+    <link href="http://example.com/2023/05/24/zotero-onedrive/"/>
+    <id>http://example.com/2023/05/24/zotero-onedrive/</id>
+    <published>2023-05-24T15:00:00.000Z</published>
+    <updated>2023-05-24T16:31:37.245Z</updated>
+    
+    <content type="html"><![CDATA[<p>Zotero syncing has two parts: data syncing and file syncing. Datasyncing will share everything except attachment files between your localcomputer(s) and the Zotero servers. It is free and unlimited (as long asyou have a Zotero account). File syncing will share any attached files.There is a storage limit of 300 MB per user. I have been using Box asWebDav for syncing my files. However, Box announced <ahref="https://support.box.com/hc/en-us/articles/360052806073-Announcing-end-of-life-for-Box-WebDAV-support">EOL</a>for WebDav support effective April 28, 2023.</p><p>Now I am using a symlink to sync only the <code>storage</code>directory from my Zotero data directory using the OneDrive sync service.This will sync all attachments without corrupting the main Zotero SQLitedatabase.</p><h2 id="onedrive-setup">OneDrive Setup</h2><p>Create a Zotero folder in your OneDrive directory, such as<code>D:\OneDrive\Zotero</code> on Windows or<code>/Users/&lt;username&gt;/OneDrive/Zotero</code> on MacOS.</p><h2 id="zotero-setup">Zotero Setup</h2><p>Open Zotero Sync Preferences, <strong>check the two options in DataSyncing and uncheck the two options in File Syncing</strong>. Thedefault Zotero data directory should be<code>C:\Users\&lt;username&gt;\Zotero</code> on Windows or<code>/Users/&lt;username&gt;/Zotero</code> on MacOS. Manually copy theentire <code>storage</code> folder in this directory to the OneDriveZotero folder. Delete the original <code>storage</code> folder in theZotero data directory.</p><h2 id="create-symlink">Create Symlink</h2><p>Create symlink using the following command: <figure class="highlight powershell"><figcaption><span>Windows PowerShell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$link</span> = <span class="built_in">New-Item</span> `</span><br><span class="line"><span class="literal">-ItemType</span> SymbolicLink `</span><br><span class="line"><span class="literal">-Path</span> <span class="string">&quot;D:\OneDrive\Zotero\storage&quot;</span> `</span><br><span class="line"><span class="literal">-Target</span> <span class="string">&quot;C:\Users\&lt;username&gt;\Zotero\storage&quot;</span></span><br></pre></td></tr></table></figure><figure class="highlight bash"><figcaption><span>MacOS Terminal</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s <span class="string">&quot;/Users/&lt;username&gt;/OneDrive/Zotero/storage&quot;</span> <span class="string">&quot;/Users/&lt;username&gt;/Zotero/storage&quot;</span></span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Zotero syncing has two parts: data syncing and file syncing. Data
+syncing will share everything except attachment files between your loca</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>Create Blog with Hexo and NexT</title>
     <link href="http://example.com/2023/04/30/hexo-next-blog/"/>
     <id>http://example.com/2023/04/30/hexo-next-blog/</id>
     <published>2023-05-01T02:00:00.000Z</published>
-    <updated>2023-05-01T03:59:34.669Z</updated>
+    <updated>2023-05-01T02:00:00.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="create-blog-with-hexo-and-next">Create Blog with Hexo andNexT</h1><h2 id="install-node.js">Install Node.js</h2><p>Download and run the script to install <ahref="https://github.com/nvm-sh/nvm">nvm</a>, which is a version managerfor <a href="https://nodejs.org/en">Node.js</a>. <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash</span><br></pre></td></tr></table></figure> Downloadand install the latest release of Node.js: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install node</span><br></pre></td></tr></table></figure> And use theinstalled version: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm use node</span><br></pre></td></tr></table></figure></p><h2 id="install-and-initialize-hexo">Install and Initialize Hexo</h2><p>Install Hexo with npm: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure> Initialize Hexo in the targetdirectory <code>blog</code>: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;blog&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;blog&gt;</span><br></pre></td></tr></table></figure></p><h2 id="install-next">Install NexT</h2><p>Download the source code of the theme NexT in the <code>themes</code>directory under the <code>blog</code> root directory: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/next-theme/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p><h2 id="enable-next">Enable NexT</h2><p>Open Hexo config file <code>_config.yml</code>, find<code>theme</code> option, and change its value to <code>next</code>:<figure class="highlight yaml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure> Check whether the site works correctly on local server:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp; hexo server</span><br></pre></td></tr></table></figure></p>]]></content>
+    <content type="html"><![CDATA[<h2 id="install-node.js">Install Node.js</h2><p>Download and run the script to install <ahref="https://github.com/nvm-sh/nvm">nvm</a>, which is a version managerfor <a href="https://nodejs.org/en">Node.js</a>. <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash</span><br></pre></td></tr></table></figure> Downloadand install the latest release of Node.js: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install node</span><br></pre></td></tr></table></figure> And use theinstalled version: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm use node</span><br></pre></td></tr></table></figure></p><h2 id="install-and-initialize-hexo">Install and Initialize Hexo</h2><p>Install Hexo with npm: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure> Initialize Hexo in the targetdirectory <code>blog</code>: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;blog&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;blog&gt;</span><br></pre></td></tr></table></figure></p><h2 id="install-next">Install NexT</h2><p>Download the source code of the theme NexT in the <code>themes</code>directory under the <code>blog</code> root directory: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/next-theme/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></p><h2 id="enable-next">Enable NexT</h2><p>Open Hexo config file <code>_config.yml</code>, find<code>theme</code> option, and change its value to <code>next</code>:<figure class="highlight yaml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure> Check whether the site works correctly on local server:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp; hexo server</span><br></pre></td></tr></table></figure></p>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;create-blog-with-hexo-and-next&quot;&gt;Create Blog with Hexo and
-NexT&lt;/h1&gt;
-&lt;h2 id=&quot;install-node.js&quot;&gt;Install Node.js&lt;/h2&gt;
-&lt;p&gt;Download and ru</summary>
+    <summary type="html">&lt;h2 id=&quot;install-node.js&quot;&gt;Install Node.js&lt;/h2&gt;
+&lt;p&gt;Download and run the script to install &lt;a
+href=&quot;https://github.com/nvm-sh/nvm&quot;&gt;nvm&lt;/a&gt;, whi</summary>
       
     
     

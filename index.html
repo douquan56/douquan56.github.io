@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -197,6 +197,117 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/24/zotero-onedrive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="Quan Dou">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Quan's Home">
+      <meta itemprop="description" content="Ph.D. Student<br>Biomedical Engineering<br>University of Virginia">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Quan's Home">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/05/24/zotero-onedrive/" class="post-title-link" itemprop="url">Sync Zotero with OneDrive</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-05-24 11:00:00 / Modified: 12:31:37" itemprop="dateCreated datePublished" datetime="2023-05-24T11:00:00-04:00">2023-05-24</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>242</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Zotero syncing has two parts: data syncing and file syncing. Data
+syncing will share everything except attachment files between your local
+computer(s) and the Zotero servers. It is free and unlimited (as long as
+you have a Zotero account). File syncing will share any attached files.
+There is a storage limit of 300 MB per user. I have been using Box as
+WebDav for syncing my files. However, Box announced <a
+target="_blank" rel="noopener" href="https://support.box.com/hc/en-us/articles/360052806073-Announcing-end-of-life-for-Box-WebDAV-support">EOL</a>
+for WebDav support effective April 28, 2023.</p>
+<p>Now I am using a symlink to sync only the <code>storage</code>
+directory from my Zotero data directory using the OneDrive sync service.
+This will sync all attachments without corrupting the main Zotero SQLite
+database.</p>
+<h2 id="onedrive-setup">OneDrive Setup</h2>
+<p>Create a Zotero folder in your OneDrive directory, such as
+<code>D:\OneDrive\Zotero</code> on Windows or
+<code>/Users/&lt;username&gt;/OneDrive/Zotero</code> on MacOS.</p>
+<h2 id="zotero-setup">Zotero Setup</h2>
+<p>Open Zotero Sync Preferences, <strong>check the two options in Data
+Syncing and uncheck the two options in File Syncing</strong>. The
+default Zotero data directory should be
+<code>C:\Users\&lt;username&gt;\Zotero</code> on Windows or
+<code>/Users/&lt;username&gt;/Zotero</code> on MacOS. Manually copy the
+entire <code>storage</code> folder in this directory to the OneDrive
+Zotero folder. Delete the original <code>storage</code> folder in the
+Zotero data directory.</p>
+<h2 id="create-symlink">Create Symlink</h2>
+<p>Create symlink using the following command: <figure class="highlight powershell"><figcaption><span>Windows PowerShell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$link</span> = <span class="built_in">New-Item</span> `</span><br><span class="line"><span class="literal">-ItemType</span> SymbolicLink `</span><br><span class="line"><span class="literal">-Path</span> <span class="string">&quot;D:\OneDrive\Zotero\storage&quot;</span> `</span><br><span class="line"><span class="literal">-Target</span> <span class="string">&quot;C:\Users\&lt;username&gt;\Zotero\storage&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><figcaption><span>MacOS Terminal</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s <span class="string">&quot;/Users/&lt;username&gt;/OneDrive/Zotero/storage&quot;</span> <span class="string">&quot;/Users/&lt;username&gt;/Zotero/storage&quot;</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/30/hexo-next-blog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -225,9 +336,8 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2023-04-30 22:00:00 / Modified: 23:59:34" itemprop="dateCreated datePublished" datetime="2023-04-30T22:00:00-04:00">2023-04-30</time>
+      <time title="Created: 2023-04-30 22:00:00" itemprop="dateCreated datePublished" datetime="2023-04-30T22:00:00-04:00">2023-04-30</time>
     </span>
 
   
@@ -236,7 +346,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>147</span>
+      <span>141</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -254,9 +364,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="create-blog-with-hexo-and-next">Create Blog with Hexo and
-NexT</h1>
-<h2 id="install-node.js">Install Node.js</h2>
+          <h2 id="install-node.js">Install Node.js</h2>
 <p>Download and run the script to install <a
 target="_blank" rel="noopener" href="https://github.com/nvm-sh/nvm">nvm</a>, which is a version manager
 for <a target="_blank" rel="noopener" href="https://nodejs.org/en">Node.js</a>. <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash</span><br></pre></td></tr></table></figure> Download

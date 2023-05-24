@@ -3,9 +3,7 @@
   <entry>
     <title>Create Blog with Hexo and NexT</title>
     <url>/2023/04/30/hexo-next-blog/</url>
-    <content><![CDATA[<h1 id="create-blog-with-hexo-and-next">Create Blog with Hexo and
-NexT</h1>
-<h2 id="install-node.js">Install Node.js</h2>
+    <content><![CDATA[<h2 id="install-node.js">Install Node.js</h2>
 <p>Download and run the script to install <a
 href="https://github.com/nvm-sh/nvm">nvm</a>, which is a version manager
 for <a href="https://nodejs.org/en">Node.js</a>. <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash</span><br></pre></td></tr></table></figure> Download
@@ -22,6 +20,39 @@ directory under the <code>blog</code> root directory: <figure class="highlight b
 <code>theme</code> option, and change its value to <code>next</code>:
 <figure class="highlight yaml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure> Check whether the site works correctly on local server:
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean &amp; hexo server</span><br></pre></td></tr></table></figure></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Sync Zotero with OneDrive</title>
+    <url>/2023/05/24/zotero-onedrive/</url>
+    <content><![CDATA[<p>Zotero syncing has two parts: data syncing and file syncing. Data
+syncing will share everything except attachment files between your local
+computer(s) and the Zotero servers. It is free and unlimited (as long as
+you have a Zotero account). File syncing will share any attached files.
+There is a storage limit of 300 MB per user. I have been using Box as
+WebDav for syncing my files. However, Box announced <a
+href="https://support.box.com/hc/en-us/articles/360052806073-Announcing-end-of-life-for-Box-WebDAV-support">EOL</a>
+for WebDav support effective April 28, 2023.</p>
+<p>Now I am using a symlink to sync only the <code>storage</code>
+directory from my Zotero data directory using the OneDrive sync service.
+This will sync all attachments without corrupting the main Zotero SQLite
+database.</p>
+<h2 id="onedrive-setup">OneDrive Setup</h2>
+<p>Create a Zotero folder in your OneDrive directory, such as
+<code>D:\OneDrive\Zotero</code> on Windows or
+<code>/Users/&lt;username&gt;/OneDrive/Zotero</code> on MacOS.</p>
+<h2 id="zotero-setup">Zotero Setup</h2>
+<p>Open Zotero Sync Preferences, <strong>check the two options in Data
+Syncing and uncheck the two options in File Syncing</strong>. The
+default Zotero data directory should be
+<code>C:\Users\&lt;username&gt;\Zotero</code> on Windows or
+<code>/Users/&lt;username&gt;/Zotero</code> on MacOS. Manually copy the
+entire <code>storage</code> folder in this directory to the OneDrive
+Zotero folder. Delete the original <code>storage</code> folder in the
+Zotero data directory.</p>
+<h2 id="create-symlink">Create Symlink</h2>
+<p>Create symlink using the following command: <figure class="highlight powershell"><figcaption><span>Windows PowerShell</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="variable">$link</span> = <span class="built_in">New-Item</span> `</span><br><span class="line"><span class="literal">-ItemType</span> SymbolicLink `</span><br><span class="line"><span class="literal">-Path</span> <span class="string">&quot;D:\OneDrive\Zotero\storage&quot;</span> `</span><br><span class="line"><span class="literal">-Target</span> <span class="string">&quot;C:\Users\&lt;username&gt;\Zotero\storage&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><figcaption><span>MacOS Terminal</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s <span class="string">&quot;/Users/&lt;username&gt;/OneDrive/Zotero/storage&quot;</span> <span class="string">&quot;/Users/&lt;username&gt;/Zotero/storage&quot;</span></span><br></pre></td></tr></table></figure></p>
 ]]></content>
   </entry>
 </search>
