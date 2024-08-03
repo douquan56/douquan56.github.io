@@ -55,4 +55,10 @@ Zotero data directory.</p>
 <figure class="highlight bash"><figcaption><span>MacOS Terminal</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s <span class="string">&quot;/Users/&lt;username&gt;/OneDrive/Zotero/storage&quot;</span> <span class="string">&quot;/Users/&lt;username&gt;/Zotero/storage&quot;</span></span><br></pre></td></tr></table></figure></p>
 ]]></content>
   </entry>
+  <entry>
+    <title>ar-photo</title>
+    <url>/2024/08/02/ar-photo/</url>
+    <content><![CDATA[
+]]></content>
+  </entry>
 </search>
