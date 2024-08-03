@@ -24,25 +24,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.15.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"default"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="article">
-<meta property="og:title" content="ar-photo">
+    <meta name="description" content="Recently, Xiaomi unveiled their first flip foldable phone, the MIX Flip. However, the most attention at the launch event was not on the phone itself, but on its accompanying portable photography kit.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Implement Xiaomi AR Photo using less than 100 lines">
 <meta property="og:url" content="http://example.com/2024/08/02/ar-photo/index.html">
 <meta property="og:site_name" content="Quan&#39;s Home">
+<meta property="og:description" content="Recently, Xiaomi unveiled their first flip foldable phone, the MIX Flip. However, the most attention at the launch event was not on the phone itself, but on its accompanying portable photography kit.">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-08-02T23:29:28.000Z">
-<meta property="article:modified_time" content="2024-08-02T23:29:28.769Z">
+<meta property="og:image" content="http://example.com/images/ar-photo-demo.gif">
+<meta property="article:published_time" content="2024-08-02T22:00:00.000Z">
+<meta property="article:modified_time" content="2024-08-03T02:48:37.048Z">
 <meta property="article:author" content="Quan Dou">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/ar-photo-demo.gif">
 
 
 <link rel="canonical" href="http://example.com/2024/08/02/ar-photo/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2024/08/02/ar-photo/","path":"2024/08/02/ar-photo/","title":"ar-photo"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2024/08/02/ar-photo/","path":"2024/08/02/ar-photo/","title":"Implement Xiaomi AR Photo using less than 100 lines"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>ar-photo | Quan's Home</title>
+<title>Implement Xiaomi AR Photo using less than 100 lines | Quan's Home</title>
   
 
 
@@ -211,12 +215,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="ar-photo | Quan's Home">
+      <meta itemprop="name" content="Implement Xiaomi AR Photo using less than 100 lines | Quan's Home">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          ar-photo
+          Implement Xiaomi AR Photo using less than 100 lines
         </h1>
 
         <div class="post-meta-container">
@@ -226,8 +230,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2024-08-02 19:29:28" itemprop="dateCreated datePublished" datetime="2024-08-02T19:29:28-04:00">2024-08-02</time>
+      <time title="Created: 2024-08-02 18:00:00 / Modified: 22:48:37" itemprop="dateCreated datePublished" datetime="2024-08-02T18:00:00-04:00">2024-08-02</time>
     </span>
 
   
@@ -236,7 +241,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>0</span>
+      <span>115</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -253,7 +258,29 @@
     
     
     
-    <div class="post-body" itemprop="articleBody">
+    <div class="post-body" itemprop="articleBody"><p>Recently, Xiaomi unveiled their first flip foldable phone, <a
+target="_blank" rel="noopener" href="https://mi.com/global/discover/article?id=3464">the MIX Flip</a>.
+However, the most attention at the launch event was not on the phone
+itself, but on its accompanying portable photography kit. Once connected
+with the kit, the phone transforms into a Polaroid camera and supports
+AR video photo, allowing users to attach a related video to the photo
+they take.</p>
+<div class="video-container"><iframe src="https://www.youtube.com/embed/ZmRQSLzWgeo" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+<p>I tried to implement a simple AR Photo using Python with numpy and
+OpenCV. The code can be found on <a
+target="_blank" rel="noopener" href="https://github.com/douquan56/AR-Photo/tree/master">Github</a>. The
+whole process can be divided into:</p>
+<ol type="1">
+<li>Target recognition with <a
+target="_blank" rel="noopener" href="https://docs.opencv.org/4.x/dc/dc3/tutorial_py_matcher.html">FLANN
+based Matcher and SIFT Descriptors</a>.</li>
+<li>Find perspective transformation.</li>
+<li>Project and overlay video on the target.</li>
+</ol>
+<figure>
+<img src="/images/ar-photo-demo.gif" alt="Cute Steve" />
+<figcaption aria-hidden="true">Cute Steve</figcaption>
+</figure>
 
     </div>
 

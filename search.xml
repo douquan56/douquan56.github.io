@@ -56,9 +56,31 @@ Zotero data directory.</p>
 ]]></content>
   </entry>
   <entry>
-    <title>ar-photo</title>
+    <title>Implement Xiaomi AR Photo using less than 100 lines</title>
     <url>/2024/08/02/ar-photo/</url>
-    <content><![CDATA[
+    <content><![CDATA[<p>Recently, Xiaomi unveiled their first flip foldable phone, <a
+href="https://mi.com/global/discover/article?id=3464">the MIX Flip</a>.
+However, the most attention at the launch event was not on the phone
+itself, but on its accompanying portable photography kit. Once connected
+with the kit, the phone transforms into a Polaroid camera and supports
+AR video photo, allowing users to attach a related video to the photo
+they take.</p>
+<div class="video-container"><iframe src="https://www.youtube.com/embed/ZmRQSLzWgeo" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+<p>I tried to implement a simple AR Photo using Python with numpy and
+OpenCV. The code can be found on <a
+href="https://github.com/douquan56/AR-Photo/tree/master">Github</a>. The
+whole process can be divided into:</p>
+<ol type="1">
+<li>Target recognition with <a
+href="https://docs.opencv.org/4.x/dc/dc3/tutorial_py_matcher.html">FLANN
+based Matcher and SIFT Descriptors</a>.</li>
+<li>Find perspective transformation.</li>
+<li>Project and overlay video on the target.</li>
+</ol>
+<figure>
+<img src="/images/ar-photo-demo.gif" alt="Cute Steve" />
+<figcaption aria-hidden="true">Cute Steve</figcaption>
+</figure>
 ]]></content>
   </entry>
 </search>

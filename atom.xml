@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-08-02T23:29:28.769Z</updated>
+  <updated>2024-08-03T02:48:37.048Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,19 +17,20 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>ar-photo</title>
+    <title>Implement Xiaomi AR Photo using less than 100 lines</title>
     <link href="http://example.com/2024/08/02/ar-photo/"/>
     <id>http://example.com/2024/08/02/ar-photo/</id>
-    <published>2024-08-02T23:29:28.000Z</published>
-    <updated>2024-08-02T23:29:28.769Z</updated>
+    <published>2024-08-02T22:00:00.000Z</published>
+    <updated>2024-08-03T02:48:37.048Z</updated>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>Recently, Xiaomi unveiled their first flip foldable phone, <ahref="https://mi.com/global/discover/article?id=3464">the MIX Flip</a>.However, the most attention at the launch event was not on the phoneitself, but on its accompanying portable photography kit. Once connectedwith the kit, the phone transforms into a Polaroid camera and supportsAR video photo, allowing users to attach a related video to the photothey take.</p><div class="video-container"><iframe src="https://www.youtube.com/embed/ZmRQSLzWgeo" frameborder="0" loading="lazy" allowfullscreen></iframe></div><p>I tried to implement a simple AR Photo using Python with numpy andOpenCV. The code can be found on <ahref="https://github.com/douquan56/AR-Photo/tree/master">Github</a>. Thewhole process can be divided into:</p><ol type="1"><li>Target recognition with <ahref="https://docs.opencv.org/4.x/dc/dc3/tutorial_py_matcher.html">FLANNbased Matcher and SIFT Descriptors</a>.</li><li>Find perspective transformation.</li><li>Project and overlay video on the target.</li></ol><figure><img src="/images/ar-photo-demo.gif" alt="Cute Steve" /><figcaption aria-hidden="true">Cute Steve</figcaption></figure>]]></content>
     
     
       
       
-    <summary type="html">
-</summary>
+    <summary type="html">&lt;p&gt;Recently, Xiaomi unveiled their first flip foldable phone, &lt;a
+href=&quot;https://mi.com/global/discover/article?id=3464&quot;&gt;the MIX Flip&lt;/a&gt;.
+How</summary>
       
     
     
