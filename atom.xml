@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <author>
+    <name>Quan Dou</name>
+  </author>
+  <generator uri="https://hexo.io/">Hexo</generator>
+  <id>http://example.com/</id>
+  <link href="http://example.com/" rel="alternate"/>
+  <link href="http://example.com/atom.xml" rel="self"/>
+  <rights>All rights reserved 2026, Quan Dou</rights>
+  <subtitle>
+    <![CDATA[MRI Reconstruction Engineer<br>at <a href="https://vista.ai">Vista AI</a><br>BME PhD from <a href="https://engineering.virginia.edu/labs-groups/rapid-mri-research-group">UVA</a>]]>
+  </subtitle>
+  <title>Quan's Blog</title>
+  <updated>2026-07-19T20:17:38.451Z</updated>
+  <entry>
+    <author>
+      <name>Quan Dou</name>
+    </author>
+    <content>
+      <![CDATA[<p>Recently, Xiaomi unveiled their first flip foldable phone, <a href="https://mi.com/global/discover/article?id=3464" title="" target="_blank">the MIX Flip</a>. However, the most attention at the launch event was not on the phone itself, but on its accompanying portable photography kit. Once connected with the kit, the phone transforms into a Polaroid camera and supports AR video photo, allowing users to attach a related video to the photo they take.</p><div class="video-container"><iframe src="https://www.youtube.com/embed/ZmRQSLzWgeo" frameborder="0" loading="lazy" allowfullscreen></iframe></div><p>I tried to implement a simple AR Photo using Python with numpy and OpenCV. The code can be found on <a href="https://github.com/douquan56/AR-Photo/tree/master" title="" target="_blank">Github</a>. The whole process can be divided into:</p><ol><li>Target recognition with <a href="https://docs.opencv.org/4.x/dc/dc3/tutorial_py_matcher.html" title="" target="_blank">FLANN based Matcher and SIFT Descriptors</a>.</li><li>Find perspective transformation.</li><li>Project and overlay video on the target.</li></ol><img src="/images/ar-photo-demo.gif" class="" title="Cute Steve" alt="Cute Steve">]]>
+    </content>
+    <id>http://example.com/2024/08/02/ar-photo/</id>
+    <link href="http://example.com/2024/08/02/ar-photo/"/>
+    <published>2024-08-03T01:00:00.000Z</published>
+    <summary>
+      <![CDATA[<p>Recently, Xiaomi unveiled their first flip foldable phone, <a href="https://mi.com/global/discover/article?id=3464" title="" target="_bla]]>
+    </summary>
+    <title>Implement Xiaomi AR Photo using less than 100 lines</title>
+    <updated>2026-07-19T20:17:38.451Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Quan Dou</name>
+    </author>
+    <content>
+      <![CDATA[<p>Zotero syncing has two parts: data syncing and file syncing. Data syncing will share everything except attachment files between your local computer(s) and the Zotero servers. It is free and unlimited (as long as you have a Zotero account). File syncing will share any attached files. There is a storage limit of 300 MB per user. I have been using Box as WebDav for syncing my files. However, Box announced <a href="https://support.box.com/hc/en-us/articles/360052806073-Announcing-end-of-life-for-Box-WebDAV-support" title="" target="_blank">EOL</a> for WebDav support effective April 28, 2023.</p><p>Now I am using a symlink to sync only the <code>storage</code> directory from my Zotero data directory using the OneDrive sync service. This will sync all attachments without corrupting the main Zotero SQLite database.</p><h2 id="OneDrive-Setup"><a href="#OneDrive-Setup" class="headerlink" title="OneDrive Setup"></a>OneDrive Setup</h2><p>Create a Zotero folder in your OneDrive directory, such as <code>D:\OneDrive\Zotero</code> on Windows or <code>/Users/&lt;username&gt;/OneDrive/Zotero</code> on MacOS.</p><h2 id="Zotero-Setup"><a href="#Zotero-Setup" class="headerlink" title="Zotero Setup"></a>Zotero Setup</h2><p>Open Zotero Sync Preferences, <strong>check the two options in Data Syncing and uncheck the two options in File Syncing</strong>. The default Zotero data directory should be <code>C:\Users\&lt;username&gt;\Zotero</code> on Windows or <code>/Users/&lt;username&gt;/Zotero</code> on MacOS. Manually copy the entire <code>storage</code> folder in this directory to the OneDrive Zotero folder. Delete the original <code>storage</code> folder in the Zotero data directory.</p><h2 id="Create-Symlink"><a href="#Create-Symlink" class="headerlink" title="Create Symlink"></a>Create Symlink</h2><p>Create symlink using the following command:</p><figure class="highlight powershell"><figcaption><span>Windows PowerShell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$link</span> = <span class="built_in">New-Item</span> `</span><br><span class="line"><span class="literal">-ItemType</span> SymbolicLink `</span><br><span class="line"><span class="literal">-Path</span> <span class="string">&quot;D:\OneDrive\Zotero\storage&quot;</span> `</span><br><span class="line"><span class="literal">-Target</span> <span class="string">&quot;C:\Users\&lt;username&gt;\Zotero\storage&quot;</span></span><br></pre></td></tr></table></figure><figure class="highlight bash"><figcaption><span>MacOS Terminal</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s <span class="string">&quot;/Users/&lt;username&gt;/OneDrive/Zotero/storage&quot;</span> <span class="string">&quot;/Users/&lt;username&gt;/Zotero/storage&quot;</span></span><br></pre></td></tr></table></figure>]]>
+    </content>
+    <id>http://example.com/2023/05/24/zotero-onedrive/</id>
+    <link href="http://example.com/2023/05/24/zotero-onedrive/"/>
+    <published>2023-05-24T18:00:00.000Z</published>
+    <summary>
+      <![CDATA[<p>Zotero syncing has two parts: data syncing and file syncing. Data syncing will share everything except attachment files between your loca]]>
+    </summary>
+    <title>Sync Zotero with OneDrive</title>
+    <updated>2026-07-19T23:04:45.547Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Quan Dou</name>
+    </author>
+    <content>
+      <![CDATA[<h2 id="Install-Node-js"><a href="#Install-Node-js" class="headerlink" title="Install Node.js"></a>Install Node.js</h2><p>Download and run the script to install <a href="https://github.com/nvm-sh/nvm" title="" target="_blank">nvm</a>, which is a version manager for <a href="https://nodejs.org/en" title="" target="_blank">Node.js</a>.</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash</span><br></pre></td></tr></table></figure><p>Download and install the latest release of Node.js:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install node</span><br></pre></td></tr></table></figure><p>And use the installed version:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm use node</span><br></pre></td></tr></table></figure><h2 id="Install-and-Initialize-Hexo"><a href="#Install-and-Initialize-Hexo" class="headerlink" title="Install and Initialize Hexo"></a>Install and Initialize Hexo</h2><p>Install Hexo with npm:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure><p>Initialize Hexo in the target directory <code>blog</code>:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;blog&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;blog&gt;</span><br></pre></td></tr></table></figure><h2 id="Install-NexT"><a href="#Install-NexT" class="headerlink" title="Install NexT"></a>Install NexT</h2><p>Download the source code of the theme NexT in the <code>themes</code> directory under the <code>blog</code> root directory:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/next-theme/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure><h2 id="Enable-NexT"><a href="#Enable-NexT" class="headerlink" title="Enable NexT"></a>Enable NexT</h2><p>Open Hexo config file <code>_config.yml</code>, find <code>theme</code> option, and change its value to <code>next</code>:</p><figure class="highlight yaml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure><p>Check whether the site works correctly on local server:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp; hexo server</span><br></pre></td></tr></table></figure>]]>
+    </content>
+    <id>http://example.com/2023/04/30/hexo-next-blog/</id>
+    <link href="http://example.com/2023/04/30/hexo-next-blog/"/>
+    <published>2023-05-01T05:00:00.000Z</published>
+    <summary>
+      <![CDATA[<h2 id="Install-Node-js"><a href="#Install-Node-js" class="headerlink" title="Install Node.js"></a>Install Node.js</h2><p>Download and run t]]>
+    </summary>
+    <title>Create Blog with Hexo and NexT</title>
+    <updated>2023-05-01T05:00:00.000Z</updated>
+  </entry>
+</feed>

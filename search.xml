@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Implement Xiaomi AR Photo using less than 100 lines</title>
+    <url>/2024/08/02/ar-photo/</url>
+    <content><![CDATA[Recently, Xiaomi unveiled their first flip foldable phone, the MIX Flip. However, the most attention at the launch event was not on the phone itself, but on its accompanying portable photography kit. Once connected with the kit, the phone transforms into a Polaroid camera and supports AR video photo, allowing users to attach a related video to the photo they take.
+
+
+I tried to implement a simple AR Photo using Python with numpy and OpenCV. The code can be found on Github. The whole process can be divided into:
+
+Target recognition with FLANN based Matcher and SIFT Descriptors.
+Find perspective transformation.
+Project and overlay video on the target.
+
+
+]]></content>
+  </entry>
+  <entry>
+    <title>Sync Zotero with OneDrive</title>
+    <url>/2023/05/24/zotero-onedrive/</url>
+    <content><![CDATA[Zotero syncing has two parts: data syncing and file syncing. Data syncing will share everything except attachment files between your local computer(s) and the Zotero servers. It is free and unlimited (as long as you have a Zotero account). File syncing will share any attached files. There is a storage limit of 300 MB per user. I have been using Box as WebDav for syncing my files. However, Box announced EOL for WebDav support effective April 28, 2023.
+Now I am using a symlink to sync only the storage directory from my Zotero data directory using the OneDrive sync service. This will sync all attachments without corrupting the main Zotero SQLite database.
+OneDrive SetupCreate a Zotero folder in your OneDrive directory, such as D:\OneDrive\Zotero on Windows or /Users/&lt;username&gt;/OneDrive/Zotero on MacOS.
+Zotero SetupOpen Zotero Sync Preferences, check the two options in Data Syncing and uncheck the two options in File Syncing. The default Zotero data directory should be C:\Users\&lt;username&gt;\Zotero on Windows or /Users/&lt;username&gt;/Zotero on MacOS. Manually copy the entire storage folder in this directory to the OneDrive Zotero folder. Delete the original storage folder in the Zotero data directory.
+Create SymlinkCreate symlink using the following command:
+Windows PowerShell$link = New-Item `-ItemType SymbolicLink `-Path &quot;D:\OneDrive\Zotero\storage&quot; `-Target &quot;C:\Users\&lt;username&gt;\Zotero\storage&quot;
+MacOS Terminalln -s &quot;/Users/&lt;username&gt;/OneDrive/Zotero/storage&quot; &quot;/Users/&lt;username&gt;/Zotero/storage&quot;]]></content>
+  </entry>
+  <entry>
+    <title>Create Blog with Hexo and NexT</title>
+    <url>/2023/04/30/hexo-next-blog/</url>
+    <content><![CDATA[Install Node.jsDownload and run the script to install nvm, which is a version manager for Node.js.
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+Download and install the latest release of Node.js:
+nvm install node
+And use the installed version:
+nvm use node
+
+Install and Initialize HexoInstall Hexo with npm:
+npm install -g hexo-cli
+Initialize Hexo in the target directory blog:
+hexo init &lt;blog&gt;cd &lt;blog&gt;
+
+Install NexTDownload the source code of the theme NexT in the themes directory under the blog root directory:
+git clone https://github.com/next-theme/hexo-theme-next themes/next
+
+Enable NexTOpen Hexo config file _config.yml, find theme option, and change its value to next:
+_config.ymltheme: next
+Check whether the site works correctly on local server:
+hexo clean &amp; hexo server]]></content>
+  </entry>
+</search>
