@@ -1,27 +1,778 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Sync Zotero with OneDrive</title>
-    <url>/2023/05/24/zotero-onedrive/</url>
-    <content><![CDATA[Zotero syncing has two parts: data syncing and file syncing. Data syncing will share everything except attachment files between your local computer(s) and the Zotero servers. It is free and unlimited (as long as you have a Zotero account). File syncing will share any attached files. There is a storage limit of 300 MB per user. I have been using Box as WebDav for syncing my files. However, Box announced EOL for WebDav support effective April 28, 2023.
-Now I am using a symlink to sync only the storage directory from my Zotero data directory using the OneDrive sync service. This will sync all attachments without corrupting the main Zotero SQLite database.
-OneDrive SetupCreate a Zotero folder in your OneDrive directory, such as D:\OneDrive\Zotero on Windows or /Users/&lt;username&gt;/OneDrive/Zotero on MacOS.
-Zotero SetupOpen Zotero Sync Preferences, check the two options in Data Syncing and uncheck the two options in File Syncing. The default Zotero data directory should be C:\Users\&lt;username&gt;\Zotero on Windows or /Users/&lt;username&gt;/Zotero on MacOS. Manually copy the entire storage folder in this directory to the OneDrive Zotero folder. Delete the original storage folder in the Zotero data directory.
-Create SymlinkCreate symlink using the following command:
-Windows PowerShell$link = New-Item `-ItemType SymbolicLink `-Path &quot;D:\OneDrive\Zotero\storage&quot; `-Target &quot;C:\Users\&lt;username&gt;\Zotero\storage&quot;
-MacOS Terminalln -s &quot;/Users/&lt;username&gt;/OneDrive/Zotero/storage&quot; &quot;/Users/&lt;username&gt;/Zotero/storage&quot;]]></content>
-  </entry>
-  <entry>
-    <title>Implement Xiaomi AR Photo using less than 100 lines</title>
-    <url>/2024/08/02/ar-photo/</url>
-    <content><![CDATA[Recently, Xiaomi unveiled their first flip foldable phone, the MIX Flip. However, the most attention at the launch event was not on the phone itself, but on its accompanying portable photography kit. Once connected with the kit, the phone transforms into a Polaroid camera and supports AR video photo, allowing users to attach a related video to the photo they take.
+    <title>Gold, Oil, and the AI Bubble</title>
+    <url>/2026/07/20/gold-oil-ai/</url>
+    <content><![CDATA[I recently watched a thought-provoking conversation between Professor Di Dongsheng and Wang Xiao. Professor Di raised a fascinating thesis about the future of the AI investment boom.
 
 
-I tried to implement a simple AR Photo using Python with numpy and OpenCV. The code can be found on Github. The whole process can be divided into:
+His argument goes like this:
 
-Target recognition with FLANN based Matcher and SIFT Descriptors.
-Find perspective transformation.
-Project and overlay video on the target.
+The AI bubble (if it is one) has been fuelled by massive, sustained capital inflows.
+A significant portion of that “dry powder” comes from Middle Eastern PE funds – sovereign wealth vehicles that have benefited from decades of oil surpluses.
+However, the ongoing geopolitical turmoil in the Middle East has severely disrupted their primary cash flow: petrodollar revenues.
+
+The Gold–Oil DecouplingHere’s where it gets interesting. Recently, we have observed a clear divergence between gold and crude oil prices:
+
+Middle East tensions rise → oil prices spike (supply fears).
+Yet, instead of safe‑haven gold rallying alongside oil, gold prices have dropped.
+
+Professor Di interprets this as a liquidity squeeze: cash‑strapped Middle Eastern funds are selling their accumulated gold reserves to cover immediate fiscal needs. Gold becomes a source of liquidity, not a hedge, in times of their own distress.
+The Inevitable CorollaryIf this interpretation is correct, then we can derive a simple but powerful signal:
+
+When the normal relationship resumes – i.e., oil spikes and gold spikes together during Middle East escalations – it will mean that gold reserves have been largely depleted.
+
+At that point, these same PE funds may be forced to liquidate their most liquid risky assets to raise cash. And what is more liquid and over‑valued right now than AI startup stakes?
+That could be the pin that pricks the AI bubble.
+A Small Monitoring ToolI am neither an economist nor a geopolitical analyst – just a curious coder. So I built a lightweight tool that fetches recent gold (XAU) and crude oil (BRENT) prices from the Alpha Vantage API and plots them after simple normalisation. You can grab your own free API key from Alpha Vantage to run the tool.
+The goal is not to predict, but to observe when the decoupling starts to heal.
+Important DisclaimerThis is not investment advice.
+
+I have no formal training in finance, economics, or political science.
+The data is raw, the normalisation is rudimentary, and the interpretation is speculative.
+Use this tool for observational purpose only.
+Regarding Alpha Vantage: This blog post and the accompanying tool do not provide or embed any API key – you must obtain your own key directly from Alpha Vantage and strictly comply with their terms of service, rate limits, and usage policies. I do not assume any responsibility for your use of their API or the data retrieved.
+
+
+
+    📊 Gold vs Crude Oil · Price Comparison Normalized
+
+    
+        
+            📅 Start Date
+            
+        
+        
+            🔑 Alpha Vantage API Key
+            
+        
+        ⬇️ Fetch Live Data
+        📋 Use Demo Data
+    
+
+    
+        
+            📁 Gold CSV (date,price)
+            
+        
+        
+            📁 Oil CSV (date,price)
+            
+        
+        📤 Load CSV Data
+        ⏳ Awaiting Data
+    
+
+    
+        
+            📈 Index (100)
+            📐 Min-Max (0-1)
+            📏 Z-score
+            💰 Raw Prices (Dual Axis)
+        
+        
+             Gold (XAU/USD)
+             Crude Oil (BRENT)
+        
+    
+
+    
+    
+    ⚡ Supports API, demo data, or CSV upload · Auto-detects date formats · Adjustable start date
+
+
+
+    #goldOilChartApp {
+        font-family: inherit;
+        max-width: 1100px;
+        width: 100%;
+        margin: 2rem auto;
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 6px 12px rgba(0, 0, 0, 0.04);
+        padding: 28px 24px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        border: 1px solid #f0f2f5;
+        box-sizing: border-box;
+        color: #1e293b;
+    }
+
+    #goldOilChartApp *,
+    #goldOilChartApp *::before,
+    #goldOilChartApp *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    #goldOilChartApp .gold-oil-title {
+        font-size: 1.9rem;
+        font-weight: 600;
+        color: #1e293b;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 4px;
+        letter-spacing: -0.5px;
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 16px;
+    }
+    #goldOilChartApp .gold-oil-title span {
+        background: #fbbf24;
+        color: #0f172a;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 30px;
+        margin-left: 8px;
+    }
+
+    #goldOilChartApp .gold-oil-setup-panel {
+        background: #f8fafc;
+        border-radius: 18px;
+        padding: 18px 20px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 16px;
+        border: 1px solid #e2e8f0;
+    }
+    #goldOilChartApp .gold-oil-api-group,
+    #goldOilChartApp .gold-oil-csv-group,
+    #goldOilChartApp .gold-oil-date-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    #goldOilChartApp .gold-oil-api-group {
+        flex: 2;
+        min-width: 180px;
+    }
+    #goldOilChartApp .gold-oil-csv-group {
+        flex: 1;
+        min-width: 160px;
+    }
+    #goldOilChartApp .gold-oil-date-group {
+        min-width: 140px;
+    }
+    #goldOilChartApp .gold-oil-csv-group label,
+    #goldOilChartApp .gold-oil-api-group label,
+    #goldOilChartApp .gold-oil-date-group label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #475569;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+    }
+    #goldOilChartApp .gold-oil-api-group input,
+    #goldOilChartApp .gold-oil-csv-group input[type="file"],
+    #goldOilChartApp .gold-oil-date-group input[type="date"] {
+        color-scheme: light;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid #cbd5e1;
+        background: white;
+        font-size: 0.9rem;
+        outline: none;
+        font-family: inherit;
+        width: 100%;
+    }
+    #goldOilChartApp .gold-oil-api-group input:focus,
+    #goldOilChartApp .gold-oil-csv-group input[type="file"]:focus,
+    #goldOilChartApp .gold-oil-date-group input[type="date"]:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    #goldOilChartApp button {
+        background: #0f172a;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 14px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        letter-spacing: 0.3px;
+        box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+        white-space: nowrap;
+        font-family: inherit;
+    }
+    #goldOilChartApp button:hover {
+        background: #1e293b;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+    }
+    #goldOilChartApp button:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+        background: #64748b;
+        box-shadow: none;
+    }
+
+    #goldOilChartApp .gold-oil-csv-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 16px;
+        background: #f1f5f9;
+        border-radius: 16px;
+        padding: 14px 18px;
+        margin-top: 4px;
+    }
+
+    #goldOilChartApp .gold-oil-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    #goldOilChartApp .gold-oil-method-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        background: #f1f5f9;
+        padding: 6px;
+        border-radius: 16px;
+        width: fit-content;
+    }
+    #goldOilChartApp .gold-oil-method-btn {
+        background: transparent;
+        color: #334155;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: 0.2s;
+        background: transparent;
+        box-shadow: none;
+        font-family: inherit;
+    }
+    #goldOilChartApp .gold-oil-method-btn.active {
+        background: white;
+        color: #0f172a;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+    #goldOilChartApp .gold-oil-method-btn:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    #goldOilChartApp .gold-oil-chart-wrapper {
+        position: relative;
+        height: 420px;
+        width: 100%;
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 10px 8px 0 8px;
+        border: 1px solid #e9eef2;
+    }
+    #goldOilChartApp canvas {
+        display: block;
+        max-width: 100%;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    #goldOilChartApp .gold-oil-status {
+        font-size: 0.9rem;
+        color: #475569;
+        background: #f1f5f9;
+        padding: 8px 16px;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+    #goldOilChartApp .gold-oil-legend-note {
+        display: flex;
+        gap: 24px;
+        font-size: 0.85rem;
+        color: #475569;
+        flex-wrap: wrap;
+    }
+    #goldOilChartApp .gold-oil-gold-dot,
+    #goldOilChartApp .gold-oil-oil-dot {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 4px;
+        margin-right: 6px;
+    }
+    #goldOilChartApp .gold-oil-gold-dot {
+        background: #eab308;
+    }
+    #goldOilChartApp .gold-oil-oil-dot {
+        background: #1e3a5f;
+    }
+
+    #goldOilChartApp .gold-oil-error-message {
+        background: #fee2e2;
+        color: #991b1b;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        display: none;
+    }
+
+    #goldOilChartApp .gold-oil-footer-note {
+        font-size: 0.8rem;
+        color: #64748b;
+        text-align: center;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 14px;
+        margin-top: 8px;
+    }
+
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+        #goldOilChartApp {
+            padding: 18px 14px 18px;
+            margin: 1rem auto;
+            border-radius: 16px;
+        }
+        #goldOilChartApp .gold-oil-title {
+            font-size: 1.4rem;
+            flex-wrap: wrap;
+        }
+        #goldOilChartApp .gold-oil-title span {
+            font-size: 0.75rem;
+            padding: 2px 10px;
+        }
+        #goldOilChartApp .gold-oil-setup-panel,
+        #goldOilChartApp .gold-oil-csv-row {
+            padding: 14px;
+            gap: 12px;
+        }
+        #goldOilChartApp .gold-oil-chart-wrapper {
+            height: 300px;
+            padding: 6px 4px 0 4px;
+        }
+        #goldOilChartApp button {
+            padding: 10px 16px;
+            font-size: 0.85rem;
+        }
+        #goldOilChartApp .gold-oil-method-btn {
+            padding: 8px 14px;
+            font-size: 0.8rem;
+        }
+        #goldOilChartApp .gold-oil-controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        #goldOilChartApp .gold-oil-method-tabs {
+            width: 100%;
+            justify-content: center;
+        }
+        #goldOilChartApp .gold-oil-legend-note {
+            justify-content: center;
+            gap: 16px;
+        }
+        #goldOilChartApp .gold-oil-status {
+            font-size: 0.8rem;
+            padding: 6px 12px;
+        }
+    }
+    @media (max-width: 480px) {
+        #goldOilChartApp .gold-oil-chart-wrapper {
+            height: 240px;
+        }
+        #goldOilChartApp .gold-oil-title {
+            font-size: 1.15rem;
+        }
+        #goldOilChartApp .gold-oil-setup-panel,
+        #goldOilChartApp .gold-oil-csv-row {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        #goldOilChartApp .gold-oil-api-group,
+        #goldOilChartApp .gold-oil-csv-group,
+        #goldOilChartApp .gold-oil-date-group {
+            min-width: unset;
+            width: 100%;
+        }
+        #goldOilChartApp .gold-oil-method-tabs {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        #goldOilChartApp .gold-oil-method-btn {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+        }
+    }
+
+
+
+
+
+
+    (function() {
+        // ---- DOM refs ----
+        const startDateInput = document.getElementById('goldOilStartDate');
+        const apiKeyInput = document.getElementById('goldOilApiKey');
+        const fetchBtn = document.getElementById('goldOilFetchBtn');
+        const demoBtn = document.getElementById('goldOilDemoBtn');
+        const csvLoadBtn = document.getElementById('goldOilCsvLoadBtn');
+        const goldCsvInput = document.getElementById('goldOilGoldCsv');
+        const oilCsvInput = document.getElementById('goldOilOilCsv');
+        const statusBadge = document.getElementById('goldOilStatus');
+        const errorDiv = document.getElementById('goldOilError');
+        const methodButtons = document.querySelectorAll('#goldOilMethodTabs .gold-oil-method-btn');
+        const ctx = document.getElementById('goldOilPriceChart').getContext('2d');
+
+        let chart = null;
+        let rawGoldData = [];
+        let rawOilData = [];
+        let currentMethod = 'index100';
+
+        function getStartDate() {
+            return startDateInput.value || '2026-03-01';
+        }
+
+        // ---- Date utilities ----
+        function normalizeDateString(dateStr) {
+            if (!dateStr) return null;
+            const s = dateStr.trim();
+            if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+                const d = new Date(s + 'T00:00:00');
+                if (!isNaN(d.getTime())) return s;
+            }
+            if (s.includes('/')) {
+                const parts = s.split('/');
+                if (parts.length === 3) {
+                    let month = parseInt(parts[0], 10);
+                    let day = parseInt(parts[1], 10);
+                    let year = parseInt(parts[2], 10);
+                    if (!isNaN(month) && !isNaN(day) && !isNaN(year)) {
+                        if (year < 100) year += 2000;
+                        const d = new Date(year, month - 1, day);
+                        if (!isNaN(d.getTime()) && d.getFullYear() === year && d.getMonth() === month - 1 && d
+                            .getDate() === day) {
+                            return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                        }
+                    }
+                }
+            }
+            if (s.includes('/')) {
+                const parts = s.split('/');
+                if (parts.length === 3) {
+                    let p1 = parseInt(parts[0], 10),
+                        p2 = parseInt(parts[1], 10),
+                        p3 = parseInt(parts[2], 10);
+                    if (!isNaN(p1) && !isNaN(p2) && !isNaN(p3)) {
+                        let year = p3 < 100 ? p3 + 2000 : p3;
+                        if (p1 > 12 && p2  {
+                    const d = parseDateForFilter(item.date);
+                    return d >= start && !isNaN(d.getTime());
+                })
+                .sort((a, b) => parseDateForFilter(a.date) - parseDateForFilter(b.date));
+        }
+
+        // ---- CSV parsing ----
+        function parseCSV(text, label) {
+            const lines = text.split(/\r?\n/).filter(line => line.trim() !== '');
+            if (lines.length === 0) throw new Error(`${label} CSV file is empty`);
+            let headerIndex = 0;
+            const firstLine = lines[0].toLowerCase().replace(/\s/g, '');
+            if (firstLine.includes('date') && firstLine.includes('price')) {
+                headerIndex = 1;
+            }
+            const result = [];
+            for (let i = headerIndex; i < lines.length; i++) {
+                const cols = lines[i].split(',').map(s => s.trim());
+                if (cols.length < 2) continue;
+                const rawDate = cols[0];
+                const price = parseFloat(cols[1]);
+                if (!rawDate || isNaN(price)) continue;
+                const standardDate = normalizeDateString(rawDate);
+                if (!standardDate) continue;
+                result.push({ date: standardDate, value: price });
+            }
+            if (result.length === 0) throw new Error(`No valid data in ${label} CSV`);
+            return result;
+        }
+
+        // ---- Transformation methods ----
+        function computeIndex100(data) {
+            if (data.length === 0) return [];
+            const base = data[0].value;
+            return data.map(d => ({ date: d.date, value: base === 0 ? 100 : (d.value / base) * 100 }));
+        }
+
+        function computeMinMax(data) {
+            if (data.length === 0) return [];
+            const vals = data.map(d => d.value);
+            const min = Math.min(...vals),
+                max = Math.max(...vals);
+            return data.map(d => ({ date: d.date, value: max === min ? 0.5 : (d.value - min) / (max - min) }));
+        }
+
+        function computeZScore(data) {
+            if (data.length === 0) return [];
+            const vals = data.map(d => d.value);
+            const n = vals.length;
+            const mean = vals.reduce((a, b) => a + b, 0) / n;
+            const std = Math.sqrt(vals.reduce((s, v) => s + (v - mean) ** 2, 0) / n);
+            return data.map(d => ({ date: d.date, value: std === 0 ? 0 : (d.value - mean) / std }));
+        }
+
+        function transformData(gold, oil, method) {
+            let g, o;
+            switch (method) {
+                case 'index100':
+                    g = computeIndex100(gold);
+                    o = computeIndex100(oil);
+                    break;
+                case 'minmax':
+                    g = computeMinMax(gold);
+                    o = computeMinMax(oil);
+                    break;
+                case 'zscore':
+                    g = computeZScore(gold);
+                    o = computeZScore(oil);
+                    break;
+                default:
+                    g = gold.map(d => ({ ...d }));
+                    o = oil.map(d => ({ ...d }));
+            }
+            return { gold: g, oil: o };
+        }
+
+        // ---- Render chart ----
+        function renderChart(goldData, oilData, method) {
+            const { gold: gProc, oil: oProc } = transformData(goldData, oilData, method);
+            const labels = gProc.map(d => d.date);
+            const datasets = [{
+                label: 'Gold (XAU/USD)',
+                data: gProc.map(d => d.value),
+                borderColor: '#eab308',
+                backgroundColor: 'rgba(234,179,8,0.08)',
+                borderWidth: 2.8,
+                pointRadius: 1.5,
+                pointHoverRadius: 6,
+                tension: 0.25,
+                yAxisID: method === 'raw' ? 'y' : 'y',
+            }, {
+                label: 'Crude Oil (BRENT)',
+                data: oProc.map(d => d.value),
+                borderColor: '#1e3a5f',
+                backgroundColor: 'rgba(30,58,95,0.05)',
+                borderWidth: 2.8,
+                pointRadius: 1.5,
+                pointHoverRadius: 6,
+                tension: 0.25,
+                yAxisID: method === 'raw' ? 'y1' : 'y',
+            }];
+
+            const scales = {};
+            if (method === 'raw') {
+                scales.y = {
+                    type: 'linear',
+                    position: 'left',
+                    title: { display: true, text: 'Gold (USD/oz)' },
+                    grid: { color: '#e2e8f0' }
+                };
+                scales.y1 = {
+                    type: 'linear',
+                    position: 'right',
+                    title: { display: true, text: 'Oil (USD/bbl)' },
+                    grid: { drawOnChartArea: false }
+                };
+            } else {
+                let label = method === 'index100' ? 'Index (100)' : (method === 'minmax' ? 'Min-Max (0-1)' : 'Z-score');
+                scales.y = {
+                    type: 'linear',
+                    position: 'left',
+                    title: { display: true, text: label },
+                    grid: { color: '#e2e8f0' }
+                };
+            }
+
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: { labels, datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) =>
+                                    `${ctx.dataset.label}: ${method === 'raw' ? ctx.parsed.y.toFixed(2) : ctx.parsed.y.toFixed(4)}`
+                            }
+                        },
+                        legend: { labels: { usePointStyle: true, boxWidth: 8, padding: 16 } }
+                    },
+                    scales: {
+                        ...scales,
+                        x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } }
+                    }
+                }
+            });
+        }
+
+        function setStatus(text, ok = true) {
+            statusBadge.innerHTML = `${ok ? '✅' : '⚠️'} ${text}`;
+        }
+
+        function showError(msg) {
+            errorDiv.style.display = 'block';
+            errorDiv.textContent = '❌ ' + msg;
+        }
+
+        function hideError() {
+            errorDiv.style.display = 'none';
+        }
+
+        // ---- Core alignment (Inner Join on dates) ----
+        function alignAndSetData(goldArr, oilArr, sourceLabel) {
+            const filteredGold = filterAndSort(goldArr);
+            const filteredOil = filterAndSort(oilArr);
+
+            if (filteredGold.length === 0 || filteredOil.length === 0) {
+                throw new Error(`${sourceLabel} data has no valid records from ${getStartDate()}.`);
+            }
+
+            const goldMap = new Map(filteredGold.map(d => [d.date, d.value]));
+            const oilMap = new Map(filteredOil.map(d => [d.date, d.value]));
+
+            const commonDates = [...goldMap.keys()].filter(date => oilMap.has(date)).sort((a, b) => new Date(a) - new Date(
+            b));
+
+            if (commonDates.length === 0) {
+                throw new Error(`No common trading days found between Gold and Oil from ${getStartDate()}.`);
+            }
+
+            const commonGold = commonDates.map(date => ({ date, value: goldMap.get(date) }));
+            const commonOil = commonDates.map(date => ({ date, value: oilMap.get(date) }));
+
+            rawGoldData = goldArr;
+            rawOilData = oilArr;
+
+            setStatus(
+                `${sourceLabel} · ${commonGold.length} trading days (${commonGold[0].date} ~ ${commonGold[commonGold.length - 1].date})`,
+                true);
+            renderChart(commonGold, commonOil, currentMethod);
+        }
+
+        function reapplyFilterAndRender() {
+            if (rawGoldData.length === 0 || rawOilData.length === 0) return;
+            try {
+                const filteredGold = filterAndSort(rawGoldData);
+                const filteredOil = filterAndSort(rawOilData);
+
+                const goldMap = new Map(filteredGold.map(d => [d.date, d.value]));
+                const oilMap = new Map(filteredOil.map(d => [d.date, d.value]));
+
+                const commonDates = [...goldMap.keys()].filter(date => oilMap.has(date)).sort((a, b) => new Date(a) - new Date(
+                    b));
+
+                if (commonDates.length === 0) {
+                    showError(`No common trading days found from ${getStartDate()}.`);
+                    setStatus('Date alignment failed', false);
+                    return;
+                }
+
+                const commonGold = commonDates.map(date => ({ date, value: goldMap.get(date) }));
+                const commonOil = commonDates.map(date => ({ date, value: oilMap.get(date) }));
+
+                hideError();
+                setStatus(
+                    `Updated · ${commonGold.length} trading days (${commonGold[0].date} ~ ${commonGold[commonGold.length - 1].date})`,
+                    true);
+                renderChart(commonGold, commonOil, currentMethod);
+            } catch (e) {
+                showError(e.message);
+            }
+        }
+
+        // ---- Alpha Vantage API (with 2s delay between calls) ----
+        async function fetchAlphaVantageData(apiKey) {
+            const goldUrl =
+                `https://www.alphavantage.co/query?function=GOLD_SILVER_HISTORY&symbol=GOLD&interval=daily&apikey=${apiKey}`;
+            const oilUrl =
+                `https://www.alphavantage.co/query?function=BRENT&interval=daily&apikey=${apiKey}`;
+
+            const goldResp = await fetch(goldUrl);
+            if (!goldResp.ok) throw new Error('Gold network request failed');
+            const goldJson = await goldResp.json();
+            if (goldJson['Error Message'] || goldJson['Note']) {
+                throw new Error('Gold API error: ' + (goldJson['Error Message'] || goldJson['Note']));
+            }
+            const goldSeries = goldJson['data'];
+            if (!Array.isArray(goldSeries)) throw new Error('Invalid Gold data format');
+
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            const oilResp = await fetch(oilUrl);
+            if (!oilResp.ok) throw new Error('Oil network request failed');
+            const oilJson = await oilResp.json();
+            if (oilJson['Error Message'] || oilJson['Note']) {
+                throw new Error('Oil API error: ' + (oilJson['Error Message'] || oilJson['Note']));
+            }
+            const oilSeries = oilJson['data'];
+            if (!Array.isArray(oilSeries)) throw new Error('Invalid Oil data format');
+
+            const goldArr = goldSeries.map(e => ({ date: e.date, value: parseFloat(e.price) })).filter(e => !isNaN(e
+            .value));
+            const oilArr = oilSeries.map(e => ({ date: e.date, value: parseFloat(e.value) })).filter(e => !isNaN(e.value));
+
+            return { gold: goldArr, oil: oilArr };
+        }
+
+        // ---- Demo data generator ----
+        function generateDemoData() {
+            const goldArr = [],
+                oilArr = [];
+            let goldVal = 2650,
+                oilVal = 72;
+            const start = new Date(2026, 2, 1);
+            const end = new Date(2026, 6, 16);
+            const cur = new Date(start);
+            while (cur  {
+            const key = apiKeyInput.value.trim();
+            if (!key) { showError('Please enter an API Key'); return; }
+            loadAPIData(key);
+        });
+
+        demoBtn.addEventListener('click', loadDemoData);
+
+        csvLoadBtn.addEventListener('click', loadCSVData);
+
+        startDateInput.addEventListener('change', () => {
+            if (rawGoldData.length && rawOilData.length) {
+                reapplyFilterAndRender();
+            }
+        });
+
+        methodButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                methodButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMethod = btn.dataset.method;
+                if (rawGoldData.length && rawOilData.length) {
+                    reapplyFilterAndRender();
+                }
+            });
+        });
+
+        // ---- Init with demo data ----
+        window.addEventListener('load', () => {
+            apiKeyInput.placeholder = 'e.g. YOUR_ALPHA_VANTAGE_KEY';
+            loadDemoData();
+        });
+    })();
 
 
 ]]></content>
@@ -48,5 +799,31 @@ Enable NexTOpen Hexo config file _config.yml, find theme option, and change its 
 _config.ymltheme: next
 Check whether the site works correctly on local server:
 hexo clean &amp; hexo server]]></content>
+  </entry>
+  <entry>
+    <title>Sync Zotero with OneDrive</title>
+    <url>/2023/05/24/zotero-onedrive/</url>
+    <content><![CDATA[Zotero syncing has two parts: data syncing and file syncing. Data syncing will share everything except attachment files between your local computer(s) and the Zotero servers. It is free and unlimited (as long as you have a Zotero account). File syncing will share any attached files. There is a storage limit of 300 MB per user. I have been using Box as WebDav for syncing my files. However, Box announced EOL for WebDav support effective April 28, 2023.
+Now I am using a symlink to sync only the storage directory from my Zotero data directory using the OneDrive sync service. This will sync all attachments without corrupting the main Zotero SQLite database.
+OneDrive SetupCreate a Zotero folder in your OneDrive directory, such as D:\OneDrive\Zotero on Windows or /Users/&lt;username&gt;/OneDrive/Zotero on MacOS.
+Zotero SetupOpen Zotero Sync Preferences, check the two options in Data Syncing and uncheck the two options in File Syncing. The default Zotero data directory should be C:\Users\&lt;username&gt;\Zotero on Windows or /Users/&lt;username&gt;/Zotero on MacOS. Manually copy the entire storage folder in this directory to the OneDrive Zotero folder. Delete the original storage folder in the Zotero data directory.
+Create SymlinkCreate symlink using the following command:
+Windows PowerShell$link = New-Item `-ItemType SymbolicLink `-Path &quot;D:\OneDrive\Zotero\storage&quot; `-Target &quot;C:\Users\&lt;username&gt;\Zotero\storage&quot;
+MacOS Terminalln -s &quot;/Users/&lt;username&gt;/OneDrive/Zotero/storage&quot; &quot;/Users/&lt;username&gt;/Zotero/storage&quot;]]></content>
+  </entry>
+  <entry>
+    <title>Implement Xiaomi AR Photo using less than 100 lines</title>
+    <url>/2024/08/02/ar-photo/</url>
+    <content><![CDATA[Recently, Xiaomi unveiled their first flip foldable phone, the MIX Flip. However, the most attention at the launch event was not on the phone itself, but on its accompanying portable photography kit. Once connected with the kit, the phone transforms into a Polaroid camera and supports AR video photo, allowing users to attach a related video to the photo they take.
+
+
+I tried to implement a simple AR Photo using Python with numpy and OpenCV. The code can be found on Github. The whole process can be divided into:
+
+Target recognition with FLANN based Matcher and SIFT Descriptors.
+Find perspective transformation.
+Project and overlay video on the target.
+
+
+]]></content>
   </entry>
 </search>
